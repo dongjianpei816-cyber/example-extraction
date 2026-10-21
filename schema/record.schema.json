@@ -1,0 +1,141 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/corpus/record.schema.json",
+  "title": "Unified extraction record (example_card | algorithm_card)",
+  "description": "One JSON record per extracted worked example or per algorithm block that accompanies worked examples. Structured fields are written in English; original_section preserves the source verbatim.",
+  "type": "object",
+  "oneOf": [
+    { "$ref": "#/$defs/example_card" },
+    { "$ref": "#/$defs/algorithm_card" }
+  ],
+  "$defs": {
+    "version_info": {
+      "type": "object",
+      "required": ["schema_version", "kind", "id", "paper", "question", "answer", "original_section", "images", "notes"],
+      "properties": {
+        "schema_version": { "const": "1.0.0" },
+        "kind": { "enum": ["example_card", "algorithm_card"] },
+        "id": { "type": "string", "pattern": "^[^/]+/[^/]+$" },
+        "paper": { "$ref": "#/$defs/paper_meta" },
+        "question": { "$ref": "#/$defs/question" },
+        "answer": { "$ref": "#/$defs/answer" },
+        "original_section": { "type": "string", "minLength": 1 },
+        "images": { "type": "array", "items": { "type": "string" } },
+        "notes": { "type": "array", "items": { "type": "string" } }
+      },
+      "additionalProperties": true
+    },
+    "paper_meta": {
+      "type": "object",
+      "required": ["title", "doi", "language", "source_file", "source_lines"],
+      "properties": {
+        "title": { "type": "string", "minLength": 1 },
+        "doi": { "type": ["string", "null"] },
+        "source_type": { "enum": ["paper", "book", "report", "other"] },
+        "authors": { "type": ["string", "null"] },
+        "language": { "type": "string", "enum": ["en", "zh", "ru", "de", "fr", "ja", "ko", "other"] },
+        "source_file": { "type": "string", "minLength": 1 },
+        "source_lines": {
+          "type": "object",
+          "required": ["start", "end"],
+          "properties": {
+            "start": { "type": "integer", "minimum": 1 },
+            "end": { "type": "integer", "minimum": 1 }
+          }
+        }
+      },
+      "additionalProperties": true
+    },
+    "question": {
+      "type": "object",
+      "required": ["objective", "scenario"],
+      "properties": {
+        "objective": { "type": "string", "minLength": 1 },
+        "scenario": { "type": "string", "minLength": 1 },
+        "variables": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["symbol"],
+            "properties": {
+              "symbol": { "type": "string" },
+              "description": { "type": "string" },
+              "distribution": { "type": ["string", "null"] },
+              "mean": { "type": ["string", "number", "null"] },
+              "std": { "type": ["string", "number", "null"] },
+              "unit": { "type": ["string", "null"] }
+            }
+          }
+        },
+        "performance_function": {
+          "type": "object",
+          "required": ["form"],
+          "properties": {
+            "form": { "enum": ["explicit", "implicit"] },
+            "expression": { "type": ["string", "null"] },
+            "evaluator": { "enum": ["closed-form", "FE", "CFD", "dynamics solver", "surrogate", "multi-disciplinary simulation", "not stated", "other"] }
+          }
+        },
+        "targets": {
+          "type": "array",
+          "items": { "enum": ["Pf", "beta", "moments", "MPP", "design optimum", "response statistics", "approximation error", "other"] }
+        }
+      },
+      "additionalProperties": true
+    },
+    "answer": {
+      "type": "object",
+      "required": ["method", "steps", "conclusions"],
+      "properties": {
+        "method": { "type": "string", "minLength": 1 },
+        "steps": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+        "reported_results": {
+          "type": ["array", "string", "null"],
+          "items": { "type": "string" }
+        },
+        "conclusions": { "type": "string" }
+      },
+      "additionalProperties": true
+    },
+    "example_card": {
+      "allOf": [
+        { "$ref": "#/$defs/version_info" },
+        {
+          "properties": {
+            "kind": { "const": "example_card" },
+            "label": { "type": "string" },
+            "title": { "type": "string" },
+            "source_section": { "type": "string" }
+          }
+        }
+      ]
+    },
+    "algorithm_card": {
+      "allOf": [
+        { "$ref": "#/$defs/version_info" },
+        {
+          "required": ["algorithm"],
+          "properties": {
+            "kind": { "const": "algorithm_card" },
+            "label": { "type": "string" },
+            "title": { "type": "string" },
+            "source_section": { "type": "string" },
+            "algorithm": {
+              "type": "object",
+              "required": ["name", "purpose", "inputs", "outputs", "steps"],
+              "properties": {
+                "name": { "type": "string" },
+                "purpose": { "type": "string" },
+                "inputs": { "type": "array", "items": { "type": "string" } },
+                "outputs": { "type": "array", "items": { "type": "string" } },
+                "steps": { "type": "array", "items": { "type": "string" } },
+                "pseudocode": { "type": ["string", "null"] },
+                "cost_if_stated": { "type": ["string", "null"] }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0.0",
+  "kind": "example_card",
+  "id": "<paper-dir>/ex1",
+  "label": "Example 1",
+  "title": "<short descriptive title>",
+  "source_section": "<source section heading>",
+  "paper": {
+    "title": "<paper title>",
+    "doi": "10.xxxx/xxxx",
+    "source_type": "paper",
+    "authors": "[not stated in source]",
+    "language": "en",
+    "source_file": "<absolute path to the paper .md>",
+    "source_lines": { "start": 1, "end": 100 }
+  },
+  "question": {
+    "objective": "estimate failure probability Pf and reliability index beta",
+    "scenario": "<English problem statement with variables, distributions and target quantities>",
+    "variables": [
+      { "symbol": "x1", "description": "<variable description>", "distribution": "normal", "mean": "0", "std": "1" }
+    ],
+    "performance_function": {
+      "form": "explicit",
+      "expression": "g(x) = <closed form, or null for implicit>",
+      "evaluator": "closed-form"
+    },
+    "targets": ["Pf", "beta"]
+  },
+  "answer": {
+    "method": "<method name>",
+    "steps": ["<step 1>", "<step 2>"],
+    "reported_results": "<table markdown, filled by the builder from tableCaptions>",
+    "conclusions": "<source conclusions in English>"
+  },
+  "original_section": "<verbatim source slice, filled by the builder>",
+  "images": ["figures/<image>.jpg"],
+  "notes": ["[not stated in source] ...", "<OCR artifact notes>"]
+}

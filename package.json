@@ -1,0 +1,18 @@
+{
+  "name": "example-extraction",
+  "version": "1.0.0",
+  "description": "Batch-extract worked computational examples and their accompanying algorithms from converted-paper Markdown into unified English QA cards (raw slices + processed JSON/JSONL/MD).",
+  "type": "module",
+  "scripts": {
+    "index": "node scripts/build_corpus_index.mjs",
+    "build": "node scripts/build_corpus_cards.mjs",
+    "validate": "node scripts/validate_corpus.mjs",
+    "queue": "node scripts/refresh_queue.mjs",
+    "pick": "node scripts/pick_next.mjs",
+    "sync-sl": "node scripts/sync_sl.mjs",
+    "skip": "node scripts/mark_skipped.mjs"
+  },
+  "keywords": ["reliability", "examples", "extraction", "markdown", "qa-cards", "codex-skill"],
+  "license": "MIT",
+  "engines": { "node": ">=18" }
+}

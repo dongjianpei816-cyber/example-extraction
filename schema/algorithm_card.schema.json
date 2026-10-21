@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/corpus/algorithm_card.schema.json",
+  "title": "Algorithm card (algorithm/pseudocode accompanying worked examples)",
+  "description": "Structured card for an algorithm or pseudocode block that accompanies worked examples in the same paper. English structured fields; original_section verbatim.",
+  "allOf": [
+    { "$ref": "record.schema.json#/$defs/version_info" },
+    {
+      "required": ["algorithm"],
+      "properties": {
+        "kind": { "const": "algorithm_card" },
+        "label": { "type": "string" },
+        "title": { "type": "string" },
+        "source_section": { "type": "string" },
+        "algorithm": {
+          "type": "object",
+          "required": ["name", "purpose", "inputs", "outputs", "steps"],
+          "properties": {
+            "name": { "type": "string" },
+            "purpose": { "type": "string" },
+            "inputs": { "type": "array", "items": { "type": "string" } },
+            "outputs": { "type": "array", "items": { "type": "string" } },
+            "steps": { "type": "array", "items": { "type": "string" } },
+            "pseudocode": { "type": ["string", "null"] },
+            "cost_if_stated": { "type": ["string", "null"] }
+          }
+        }
+      }
+    }
+  ],
+  "required": ["kind", "id", "paper", "question", "answer", "algorithm", "original_section", "images", "notes", "schema_version"]
+}

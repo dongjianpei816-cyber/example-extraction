@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/corpus/example_card.schema.json",
+  "title": "Example card (worked computational example)",
+  "description": "Structured card for one worked example extracted from a paper or book. English structured fields; original_section verbatim.",
+  "allOf": [
+    { "$ref": "record.schema.json#/$defs/version_info" },
+    {
+      "properties": {
+        "kind": { "const": "example_card" },
+        "label": { "type": "string" },
+        "title": { "type": "string" },
+        "source_section": { "type": "string" }
+      }
+    }
+  ],
+  "required": ["kind", "id", "paper", "question", "answer", "original_section", "images", "notes", "schema_version"]
+}
